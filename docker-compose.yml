@@ -1,0 +1,24 @@
+version: '3.9'
+services:
+  forex:
+    build: .
+    runtime: nvidia
+    container_name: forex
+    volumes:
+      - .:/app
+      - ./db:/app/db
+      - /mnt/bigdata/00_students/aoi_ucl/forex/models_cache:/app/models_cache
+    ports:
+      - target: 8000
+        published: 18000
+        protocol: tcp
+    environment:
+      - DB_PATH=sqlite:///./db/forex.sqlite
+      - NVIDIA_VISIBLE_DEVICES=all
+      - HF_HOME=/models_cache
+      # Finnhub API Key (実際のキーに置き換えてください)
+      - FINNHUB_API_KEY=${FINNHUB_API_KEY}
+      # - TRANSFORMERS_CACHE=/models_cache/transformers
+      # - QWEN_MODEL_PATH=/models_cache/qwen3-4b
+
+    restart: always
