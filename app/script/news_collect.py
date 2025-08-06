@@ -169,8 +169,11 @@ def fetch_and_store_rss():
                                 d.print(f"Scraping failed for {entry.link}: {scrape_error}", level="warning")
                                 full_text = ""
 
-                            if not full_text:
-                                full_text = entry.get("summary", entry.get("title", ""))
+                            # *** 変更点 ***
+                            # 取得した本文が短い、または空の場合はDBに保存しない
+                            if not full_text or len(full_text) < 50: # 50文字未満は失敗とみなす
+                                d.print(f"⏩ Skipping article due to empty or too short content: {entry.link}", level="debug", output_path="./data/fetch_and_store_rss.log")
+                                continue
 
                             try:
                                 summary = summarize_text(full_text)
@@ -257,8 +260,11 @@ def fetch_and_store_rss():
                                 d.print(f"Scraping failed for {entry.link}: {scrape_error}", level="warning")
                                 full_text = ""
 
-                            if not full_text:
-                                full_text = entry.get("summary", entry.get("title", ""))
+                            # *** 変更点 ***
+                            # 取得した本文が短い、または空の場合はDBに保存しない
+                            if not full_text or len(full_text) < 50: # 50文字未満は失敗とみなす
+                                d.print(f"⏩ Skipping article due to empty or too short content: {entry.link}", level="debug", output_path="./data/fetch_and_store_rss.log")
+                                continue
 
                             try:
                                 summary = summarize_text(full_text)
@@ -408,8 +414,8 @@ def get_optimized_rss_feeds():
         # -------------------------------------------------------------------
         "forex_feeds": [
             # "https://www.forexlive.com/feed/",                                 # ForexLive（即時ニュース）
-            # "https://www.fxstreet.com/rss/news",                               # FXStreet - ニュース
-            # "https://www.fxstreet.com/rss/analysis",                           # FXStreet - 分析
+            "https://www.fxstreet.com/rss/news",                               # FXStreet - ニュース
+            "https://www.fxstreet.com/rss/analysis",                           # FXStreet - 分析
             # "https://www.fxstreet.com/rss/forex-news",                         # FXStreet - 為替限定
             # "https://www.fxstreet.com/rss/forex-technical-analysis",           # FXStreet - テクニカル分析
             # "https://www.investing.com/rss/news_forex.xml",                   # Investing.com - FXニュース

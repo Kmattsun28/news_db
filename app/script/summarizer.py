@@ -1,6 +1,7 @@
 import os
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
+import gc # 追加
 
 model_path = os.getenv("QWEN_MODEL_PATH", "Qwen/Qwen3-4B")
 
@@ -14,7 +15,7 @@ model = AutoModelForCausalLM.from_pretrained(
 
 def summarize_text(text: str) -> str:
     messages = [
-        {"role": "user", "content": 
+        {"role": "user", "content":
             "あなたは優秀な金融専門のデータサイエンティストです。以下のニュース記事について、記載された事実のみをもとに、日本語で3文以内で要約してください。\
             •	記事の内容を正確に把握し、主観・推測・解釈を一切含めずに要約してください。\
             •	日付、地名、人物、機関名、数値など、為替市場に影響しうる情報をなるべく削らずに記載してください。\
@@ -33,8 +34,16 @@ def summarize_text(text: str) -> str:
     with torch.no_grad():
         out = model.generate(**inputs, max_new_tokens=32768)
     gen = out[0][inputs["input_ids"].shape[-1]:]
-    
-    return tokenizer.decode(gen, skip_special_tokens=True).strip()
+
+    summary = tokenizer.decode(gen, skip_special_tokens=True).strip()
+
+    # メモリ解放処理
+    del inputs
+    del out
+    torch.cuda.empty_cache()
+    gc.collect()
+
+    return summary
 
 def summarize_news(news: str) -> str:
     """
@@ -43,7 +52,7 @@ def summarize_news(news: str) -> str:
     :return: 要約されたテキスト
     """
     messages = [
-        {"role": "user", "content": 
+        {"role": "user", "content":
             "あなたは優秀な金融為替アナリストです。以下はアメリカのトランプ大統領のSNS投稿です。\
             この発言がUSD（米ドル）、JPY（日本円）、EUR（ユーロ）に与える影響を、為替市場の観点から推論してください。\
             また、これらの通貨を保有している場合、それぞれの通貨についてどのようなアクション（保持・売却・購入など）を取るべきか、理由とともに日本語で簡潔に述べてください。\
@@ -60,5 +69,13 @@ def summarize_news(news: str) -> str:
     with torch.no_grad():
         out = model.generate(**inputs, max_new_tokens=32768)
     gen = out[0][inputs["input_ids"].shape[-1]:]
-    
-    return tokenizer.decode(gen, skip_special_tokens=True).strip()  
+
+    summary = tokenizer.decode(gen, skip_special_tokens=True).strip()
+
+    # メモリ解放処理
+    del inputs
+    del out
+    torch.cuda.empty_cache()
+    gc.collect()
+
+    return summary

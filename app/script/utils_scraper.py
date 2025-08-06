@@ -130,7 +130,7 @@ def detect_currency_tags(text: str) -> list:
             "housing market", "住宅市場", "住宅着工件数", "住宅販売",
             "consumer confidence", "消費者信頼感指数", "消費者心理",
             "treasury", "米国債", "米債", "国債利回り", "10年債",
-            "yield", "利回り", "債券利回り",
+            "yield", "利回り", "債券利回り","米国株",
             # Countries and regions
             "united states", "america", "usa", "米国", "アメリカ", "米",
             "washington", "ワシントン", "ny", "ニューヨーク",
@@ -155,11 +155,11 @@ def detect_currency_tags(text: str) -> list:
             "eurozone unemployment", "ユーロ圏失業率", "欧州失業率",
             "eurozone retail sales", "ユーロ圏小売売上高", "欧州小売売上",
             "german gdp", "ドイツgdp", "独gdp", "ドイツ経済",
-            "french gdp", "フランスgdp", "仏gdp", "フランス経済",
+            "french gdp", "フランスgdp", "仏gdp", "フランス経済",""
             # Countries and regions
             "eurozone", "ユーロ圏", "ユーロ域", "欧州", "ヨーロッパ",
-            "germany", "ドイツ", "独", "berlin", "ベルリン",
-            "france", "フランス", "仏", "paris", "パリ",
+            "germany", "ドイツ", "独", "berlin", "ベルリン","ドイツ株",
+            "france", "フランス", "仏", "paris", "パリ","フランス株",
             "italy", "イタリア", "伊", "spain", "スペイン", "西",
             "netherlands", "オランダ", "蘭", "belgium", "ベルギー",
             # Currency pairs
