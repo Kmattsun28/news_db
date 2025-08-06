@@ -414,8 +414,8 @@ def get_optimized_rss_feeds():
         # -------------------------------------------------------------------
         "forex_feeds": [
             # "https://www.forexlive.com/feed/",                                 # ForexLive（即時ニュース）
-            "https://www.fxstreet.com/rss/news",                               # FXStreet - ニュース
-            "https://www.fxstreet.com/rss/analysis",                           # FXStreet - 分析
+            "https://www.fxstreet.com/rss/news/usd",                               # FXStreet - ニュース                               
+            "https://www.fxstreet.com/rss/analysis/usd",                           # FXStreet - 分析
             # "https://www.fxstreet.com/rss/forex-news",                         # FXStreet - 為替限定
             # "https://www.fxstreet.com/rss/forex-technical-analysis",           # FXStreet - テクニカル分析
             # "https://www.investing.com/rss/news_forex.xml",                   # Investing.com - FXニュース
